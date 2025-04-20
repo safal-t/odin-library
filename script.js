@@ -1,10 +1,11 @@
 const myLibrary = []
 
-function Book(title, author, publishedDate) {
+function Book(title, author, numberOfPages, publishedDate) {
     this.title = title;
     this.author = author;
+    this.numberOfPages = numberOfPages;
     this.readStatus = false;
-    this.publishedDate = publishedDate
+    this.publishedDate = publishedDate;
     this.id = crypto.randomUUID();
 }
 
@@ -21,6 +22,7 @@ function addLibaryToPage(array) {
             document.body.append(newDiv);
     } 
 }
+
 
 
 // Adding some books to the library
