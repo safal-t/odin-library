@@ -77,13 +77,13 @@ NEWBOOKBTN.addEventListener("click", () => {
 NEWBOOKFORM.addEventListener("submit", event => {
     event.preventDefault();
 
-    // access each input form the form 
     const title = document.querySelector("#book-title").value;
     const author = document.querySelector("#book-author").value;
     const numberOfPages = document.querySelector("#book-pages").value;
     
-    // create a new Book with those inputs 
-    addBookToPage(makeNewBook(title, author, numberOfPages)); 
+    const newBook = makeNewBook(title, author, numberOfPages);
+    addBookLibrary(newBook); 
+    addBookToPage(newBook)
     NEWBOOKFORM.reset()
     MODAL.close()
 })
