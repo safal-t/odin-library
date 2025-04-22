@@ -19,18 +19,22 @@ Book.prototype.changeReadStatus = function() {
 }
 
 function makeNewBook(title, author, numberOfPages) {
-    return new Book(title, author, numberOfPages);
+    const book = new Book(title, author, numberOfPages);
+    myLibrary.push(book);
+    return book
 }
-
-function addBookLibrary(book) {
-    myLibrary.push(book); 
-} 
 
 function addBookToPage(book) {
     const newDiv = document.createElement("div");
     newDiv.classList.add("book-card");
-    newDiv.innerText += book.title;
     newDiv.dataset.id = book.id;
+
+
+    const title = document.createElement("h2");
+    title.innerText += book.title;
+
+    const author = document.createElement("p")
+    author.innerText += book.author;
 
     const removeBtn = document.createElement("button");
     removeBtn.classList.add("remove-btn", "card-btn");
@@ -40,7 +44,7 @@ function addBookToPage(book) {
     readBtn.classList.add("read-btn", "card-btn")
     readBtn.innerText = book.readStatus ? "have read" : "not read"
 
-    newDiv.append(removeBtn, readBtn);
+    newDiv.append(title, author, removeBtn, readBtn);
     CONTAINER.append(newDiv);
 }
 
@@ -82,7 +86,6 @@ NEWBOOKFORM.addEventListener("submit", event => {
     const numberOfPages = document.querySelector("#book-pages").value;
     
     const newBook = makeNewBook(title, author, numberOfPages);
-    addBookLibrary(newBook); 
     addBookToPage(newBook)
     NEWBOOKFORM.reset()
     MODAL.close()
@@ -97,5 +100,18 @@ CONTAINER.addEventListener("click", (event) => {
     }
 });
 
+// Add some initial books to the library
+const book1 = makeNewBook("The Hobbit", "J.R.R. Tolkien", 310);
+const book2 = makeNewBook("1984", "George Orwell", 328);
+const book3 = makeNewBook("To Kill a Mockingbird", "Harper Lee", 281);
+const book4 = makeNewBook("Pride and Prejudice", "Jane Austen", 279);
+const book5 = makeNewBook("The Great Gatsby", "F. Scott Fitzgerald", 180);
+const book6 = makeNewBook("Moby Dick", "Herman Melville", 635);
+const book7 = makeNewBook("War and Peace", "Leo Tolstoy", 1225);
+const book8 = makeNewBook("The Catcher in the Rye", "J.D. Salinger", 277);
+const book9 = makeNewBook("The Lord of the Rings", "J.R.R. Tolkien", 1178);
+const book10 = makeNewBook("Harry Potter and the Sorcerer's Stone", "J.K. Rowling", 309);
+
 // Display the library
 addLibaryToPage(myLibrary);
+
