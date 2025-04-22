@@ -35,17 +35,10 @@ function addBookToPage(book) {
     const removeBtn = document.createElement("button");
     removeBtn.classList.add("remove-btn", "card-btn");
     removeBtn.innerText = "remove book";
-    removeBtn.addEventListener("click", () => {
-        removeBtn.parentElement.remove()
-    })
 
     const readBtn = document.createElement("button");
     readBtn.classList.add("read-btn", "card-btn")
     readBtn.innerText = book.readStatus ? "have read" : "not read"
-    readBtn.addEventListener("click", () => {
-        book.changeReadStatus()
-        readBtn.innerText = book.readStatus ? "have read" : "not read"
-    })
 
     newDiv.append(removeBtn, readBtn);
     CONTAINER.append(newDiv);
@@ -55,6 +48,24 @@ function addLibaryToPage(array) {
     CONTAINER.innerHTML = "";
     for (const book of array) {
         addBookToPage(book)
+    }
+}
+
+function removeBook(bookCard) {
+    const bookId = bookCard.dataset.id;
+    const bookIndex = myLibrary.findIndex(book => book.id === bookId);
+    if (bookIndex !== -1) {
+        myLibrary.splice(bookIndex, 1);
+        bookCard.remove();
+    }
+}
+
+function toggleReadStatus(bookCard, button) {
+    const bookId = bookCard.dataset.id;
+    const book = myLibrary.find(book => book.id === bookId);
+    if (book) {
+        book.changeReadStatus();
+        button.innerText = book.readStatus ? "have read" : "not read";
     }
 }
 
@@ -76,6 +87,15 @@ NEWBOOKFORM.addEventListener("submit", event => {
     NEWBOOKFORM.reset()
     MODAL.close()
 })
+
+CONTAINER.addEventListener("click", (event) => {
+    const bookCard = event.target.parentElement;
+    if (event.target.classList.contains("remove-btn")) {
+        removeBook(bookCard);
+    } else if (event.target.classList.contains("read-btn")) {
+        toggleReadStatus(bookCard, event.target);
+    }
+});
 
 // Adding some books to the library
 const testBook = makeNewBook("The Great Gatsby", "F. Scott Fitzgerald", 100);
