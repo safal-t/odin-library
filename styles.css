@@ -12,3 +12,37 @@ dialog {
     margin: revert;
     padding: revert;
 }
+
+body {
+    text-align: center;
+    padding: 2%;
+}
+
+body h1 {
+    font-size: 4rem;
+}
+
+.new-book-btn {
+    font-size: 1rem;
+    padding: 0.5%;
+    border-radius: 10px;
+}
+
+.card-container {
+    margin-top: 2%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, 10rem);
+    grid-auto-rows: 15rem;
+    gap: 1rem;
+}
+
+.book-card {
+    padding: 5px;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
+}
+
+.card-btn {
+    display: block;
+}
