@@ -14,10 +14,21 @@ function Book(title, author, numberOfPages, publishedDate) {
     this.id = crypto.randomUUID();
 }
 
-function addBookToMyLibrary(title, author, numberOfPages) {
+Book.prototype.changeReadStatus = function() {
+    if (this.readStatus == true) {
+        this.readStatus = false;
+    } else {
+        this.readStatus = true;
+    }
+}
+
+function makeNewBook(title, author, numberOfPages) {
     const newBook = new Book(title, author, numberOfPages);
-    myLibrary.push(newBook); 
     return newBook;
+}
+
+function addBookLibrary(book) {
+    myLibrary.push(book); 
 } 
 
 function addLibaryToPage(array) {
@@ -36,10 +47,17 @@ function addBookToPage(book) {
     const removeBtn = document.createElement("button");
     removeBtn.classList.add("remove-btn", "card-btn");
     removeBtn.innerText = "remove book";
+    removeBtn.addEventListener("click", function() {
+        removeBtn.parentElement.remove()
+    })
 
     const readBtn = document.createElement("button");
     readBtn.classList.add("read-btn", "card-btn")
     readBtn.innerText = book.readStatus ? "have read" : "not read"
+    readBtn.addEventListener("click", function() {
+        book.changeReadStatus()
+        readBtn.innerText = book.readStatus ? "have read" : "not read"
+    })
 
     newDiv.append(removeBtn, readBtn);
     CONTAINER.append(newDiv);
@@ -59,18 +77,13 @@ NEWBOOKFORM.addEventListener("submit", function(event) {
     const numberOfPages = document.querySelector("#book-pages").value;
     
     // create a new Book with those inputs 
-    addBookToPage(addBookToMyLibrary(title, author, numberOfPages)); 
+    addBookToPage(makeNewBook(title, author, numberOfPages)); 
     NEWBOOKFORM.reset();
     MODAL.close()
 })
 
-
-
-
 // Adding some books to the library
-addBookToMyLibrary("The Great Gatsby", "F. Scott Fitzgerald", 100);
-addBookToMyLibrary("To Kill a Mockingbird", "Harper Lee", 200);
-addBookToMyLibrary("1984", "George Orwell", 300);
+addBookLibrary(makeNewBook("The Great Gatsby", "F. Scott Fitzgerald", 100));
 
 // Display the library
 addLibaryToPage(myLibrary);
