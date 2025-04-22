@@ -5,38 +5,26 @@ const CONTAINER = document.querySelector(".card-container")
 
 const myLibrary = []
 
-function Book(title, author, numberOfPages, publishedDate) {
+function Book(title, author, numberOfPages) {
     this.title = title;
     this.author = author;
     this.numberOfPages = numberOfPages
     this.readStatus = false;
-    this.publishedDate = publishedDate
+    // this.publishedDate = publishedDate
     this.id = crypto.randomUUID();
 }
 
 Book.prototype.changeReadStatus = function() {
-    if (this.readStatus == true) {
-        this.readStatus = false;
-    } else {
-        this.readStatus = true;
-    }
+    this.readStatus = this.readStatus ? false : true; 
 }
 
 function makeNewBook(title, author, numberOfPages) {
-    const newBook = new Book(title, author, numberOfPages);
-    return newBook;
+    return new Book(title, author, numberOfPages);
 }
 
 function addBookLibrary(book) {
     myLibrary.push(book); 
 } 
-
-function addLibaryToPage(array) {
-    CONTAINER.innerHTML = "";
-    for (const book of array) {
-        addBookToPage(book)
-    }
-}
 
 function addBookToPage(book) {
     const newDiv = document.createElement("div");
@@ -47,14 +35,14 @@ function addBookToPage(book) {
     const removeBtn = document.createElement("button");
     removeBtn.classList.add("remove-btn", "card-btn");
     removeBtn.innerText = "remove book";
-    removeBtn.addEventListener("click", function() {
+    removeBtn.addEventListener("click", () => {
         removeBtn.parentElement.remove()
     })
 
     const readBtn = document.createElement("button");
     readBtn.classList.add("read-btn", "card-btn")
     readBtn.innerText = book.readStatus ? "have read" : "not read"
-    readBtn.addEventListener("click", function() {
+    readBtn.addEventListener("click", () => {
         book.changeReadStatus()
         readBtn.innerText = book.readStatus ? "have read" : "not read"
     })
@@ -63,12 +51,19 @@ function addBookToPage(book) {
     CONTAINER.append(newDiv);
 }
 
+function addLibaryToPage(array) {
+    CONTAINER.innerHTML = "";
+    for (const book of array) {
+        addBookToPage(book)
+    }
+}
+
 // Event Listeners
-NEWBOOKBTN.addEventListener("click", function() {
+NEWBOOKBTN.addEventListener("click", () => {
     MODAL.showModal()
 })
 
-NEWBOOKFORM.addEventListener("submit", function(event) {
+NEWBOOKFORM.addEventListener("submit", event => {
     event.preventDefault();
 
     // access each input form the form 
@@ -78,12 +73,12 @@ NEWBOOKFORM.addEventListener("submit", function(event) {
     
     // create a new Book with those inputs 
     addBookToPage(makeNewBook(title, author, numberOfPages)); 
-    NEWBOOKFORM.reset();
+    NEWBOOKFORM.reset()
     MODAL.close()
 })
 
 // Adding some books to the library
-addBookLibrary(makeNewBook("The Great Gatsby", "F. Scott Fitzgerald", 100));
-
+const testBook = makeNewBook("The Great Gatsby", "F. Scott Fitzgerald", 100);
+addBookLibrary(testBook)
 // Display the library
 addLibaryToPage(myLibrary);
