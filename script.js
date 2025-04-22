@@ -97,8 +97,5 @@ CONTAINER.addEventListener("click", (event) => {
     }
 });
 
-// Adding some books to the library
-const testBook = makeNewBook("The Great Gatsby", "F. Scott Fitzgerald", 100);
-addBookLibrary(testBook)
 // Display the library
 addLibaryToPage(myLibrary);
