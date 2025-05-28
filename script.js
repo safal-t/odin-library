@@ -14,8 +14,8 @@ function Book(title, author, numberOfPages) {
     this.id = crypto.randomUUID();
 }
 
-Book.prototype.changeReadStatus = function() {
-    this.readStatus = this.readStatus ? false : true; 
+Book.prototype.changeReadStatus = function () {
+    this.readStatus = this.readStatus ? false : true;
 }
 
 function makeNewBook(title, author, numberOfPages) {
@@ -81,10 +81,18 @@ NEWBOOKBTN.addEventListener("click", () => {
 NEWBOOKFORM.addEventListener("submit", event => {
     event.preventDefault();
 
+    if (!NEWBOOKFORM.checkValidity()) {
+        NEWBOOKFORM.reportValidity();
+        NEWBOOKFORM.parentElement.style.border = "1px solid red";
+        return;
+    } else {
+        NEWBOOKFORM.style.border = "";
+    }
+
     const title = document.querySelector("#book-title").value;
     const author = document.querySelector("#book-author").value;
     const numberOfPages = document.querySelector("#book-pages").value;
-    
+
     const newBook = makeNewBook(title, author, numberOfPages);
     addBookToPage(newBook)
     NEWBOOKFORM.reset()
@@ -115,3 +123,29 @@ const book10 = makeNewBook("Harry Potter and the Sorcerer's Stone", "J.K. Rowlin
 // Display the library
 addLibaryToPage(myLibrary);
 
+const Inputs = document.querySelectorAll("input");
+
+Inputs.forEach(input => {
+    switch (input.name) {
+        case "title":
+            input.setCustomValidity("enter a title baka");
+            break;
+        case "author":
+            input.setCustomValidity("Who wrote the book blud");
+            break;
+        case "number":
+            input.setCustomValidity("You don't know what a number is?");
+            break;
+    }
+    input.addEventListener("input", () => {
+        // Clear custom validity if input is valid
+        if (input.value.trim() !== "") {
+            input.setCustomValidity("");
+        }
+        if (!input.checkValidity()) {
+            input.style.border = "1px solid red";
+        } else {
+            input.style.border = ""; // Reset border if valid
+        }
+    });
+});
